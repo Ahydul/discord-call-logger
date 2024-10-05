@@ -45,3 +45,18 @@ export function getRandomEmoji() {
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+
+export function calculateTimeDifference(start, end) {
+  return end - start;
+}
+
+export function parseTime(ms) {
+  const s = Math.floor((ms / 1000) % 60);
+  const m = Math.floor((ms / (1000 * 60)) % 60);
+  const h = Math.floor((ms / (1000 * 60 * 60)) % 24);
+  const d = Math.floor(ms / (1000 * 60 * 60 * 24));
+
+  const tmp =  (d == 0) ? "" : `${d} días - `
+  return tmp + `${h}:${m}:${s}`;
+}
