@@ -1,8 +1,8 @@
 {
-  "name": "discord-getting-started",
+  "name": "call-logger",
   "private": true,
   "version": "1.0.0",
-  "description": "Discord example app",
+  "description": "Discord bot that allows to log who enters and abandons voice channels",
   "main": "app.js",
   "type": "module",
   "engines": {
