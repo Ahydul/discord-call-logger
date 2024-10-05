@@ -1,0 +1,15 @@
+Dockerfile
+.dockerignore
+
+.env
+.env.example
+
+node_modules
+npm-debug.log
+package-lock.json
+
+.git
+.gitignore
+
+README.md
+LICENSE
