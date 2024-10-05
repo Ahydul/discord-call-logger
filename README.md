@@ -8,7 +8,7 @@ This bot adds 3 commands:
 
 # Important
 
-This is not production ready. The code is kind of a mess and there is no DB. The logs are stores in variables.
+This is not production ready. The code is kind of a mess and there is no DB. The logs are stored in variables.
 
 ## Running app locally
 
