@@ -32,7 +32,7 @@ function getNickname(guildId, userId) {
   });
 }
 
-async function sendCSVFile(userId, string) {
+async function sendCSVFile(userId, string, startDate, endDate) {
   const user = await client.users.fetch(userId); // Fetch the user by ID
   
   const buffer = Buffer.from(string, 'utf-8');
@@ -40,7 +40,7 @@ async function sendCSVFile(userId, string) {
   const attachment = new AttachmentBuilder(buffer, { name: 'acta.csv' });
 
   await user.send({
-    content: 'Acta de reunión:',
+    content: 'Acta de reunión: '+`${startDate}-${endDate}`,
     files: [attachment],
   });
 }
@@ -137,22 +137,23 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           },
         });
       }
+      const startDate = new Date()
 
       activeLoggers.set(key, {
         serverId: guild_id,
         channelId: channelId,
         channelName: channelName,
-        userWhoStartedLogger: userId        
+        userWhoStartedLogger: userId,        
+        startDate: startDate    
       });
 
       const map = new Map()
 
       const voiceChannel = client.channels.cache.get(channelId);
       if (voiceChannel) {
-        const actualDate = new Date()
         voiceChannel.members.forEach(member => {
             const data = {
-              date: actualDate,
+              date: startDate,
               joined: true
             }
             nicknames[member.user.id] = member.nickname
@@ -212,11 +213,11 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         result += `\n${nicknames[key]}, ${parseTime(sum)}, ${key}, ${sum}`
       });
 
-
-      sendCSVFile(userId, result)
+      const startDate = existingLogger.startDate
+      sendCSVFile(userId, result, startDate, actualDate)
 
       const otherUserId = existingLogger.userWhoStartedLogger
-      if (userId !== otherUserId) sendCSVFile(otherUserId, result)
+      if (userId !== otherUserId) sendCSVFile(otherUserId, result, startDate, actualDate)
 
 
       activeLoggers.delete(key);
